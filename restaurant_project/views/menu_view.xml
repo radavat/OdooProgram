@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_rest_staff"
+                    name="Restaurant"
+                    action="act_open_rest_staff_view"/>
+        <menuitem id="submenu_rest_staff"
+                    name="Our Team"
+                    sequence="10"
+                    parent = "menu_rest_staff"/>
+        <menuitem id="submenu_all_record_rest_staff"
+                    name="All Records"
+                    sequence="1"
+                    parent = "submenu_rest_staff" 
+                    action="act_open_rest_staff_view"/>
+        <menuitem id="submenu_male_rest_staff"
+                    name="Male Team"
+                    sequence="2"
+                    parent = "submenu_rest_staff"
+                    action="act_open_rest_male_staff_view"/>
+        <menuitem id="submenu_female_rest_staff"
+                    name="Female Team"
+                    sequence="3"
+                    parent = "submenu_rest_staff" 
+                    action="act_open_rest_female_staff_view"/>
+        <menuitem id="menu_open_wizard_rest_staff"
+                    name="Open Wizard"
+                    sequence="11"
+                    parent="menu_rest_staff"
+                    action="act_open_rest_staff_wizard_view"/>
+        <menuitem id="menu_call_pthon_fun_rest_staff"
+                    name="Call Python Function"
+                    sequence="12"
+                    parent="menu_rest_staff"
+                    action="model_call_menu_fun"/>
+        <menuitem id="menu_rest_department"
+                    name="Department"
+                    sequence="13"
+                    parent="menu_rest_staff"
+                    action="act_open_rest_department_view"/>
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<odoo>
+	<record id="sequence_for_rest_staff" model="ir.sequence">
+		<field name="name">Restaurent staff sequence number</field>
+		<field name="code">rest.seq.staff</field>
+		<field name="padding">4</field>
+		<field name="prefix">RS</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="sequence_for_department" model="ir.sequence">
+		<field name="name">Department sequence number</field>
+		<field name="code">rest.depart.seq</field>
+		<field name="padding">4</field>
+		<field name="prefix">DSN</field>
+		<field name="company_id" eval="False"/>
+	</record>
+</odoo>

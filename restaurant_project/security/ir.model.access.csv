@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rest_staff,access_rest_staff,model_rest_staff,base.group_user,1,1,1,1
+access_rest_staff_lines,access_rest_staff_lines,model_rest_staff_lines,base.group_user,1,1,1,1
+restaurant_project.access_rest_staff_wizard,access_rest_staff_wizard,restaurant_project.model_rest_staff_wizard,base.group_user,1,1,1,1
+restaurant_project.access_rest_staff_wizard_lines,access_rest_staff_wizard_lines,restaurant_project.model_rest_staff_wizard_lines,base.group_user,1,1,1,1
+restaurant_project.access_rest_department,access_rest_department,restaurant_project.model_rest_department,base.group_user,1,1,1,1

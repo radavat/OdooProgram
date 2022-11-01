@@ -17,6 +17,7 @@
         'wizard/staff_view_wizard.xml',
         'views/staff_view.xml',
         'views/menu_view.xml',
+        'reports/staff_report.xml',
     ],
     'installable': True,
     'application': False,

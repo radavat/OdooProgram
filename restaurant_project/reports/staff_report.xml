@@ -1,0 +1,113 @@
+<odoo>
+	<data>
+		<template id="rest_staff_qweb_templete">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+				    <!-- <t t-call="web.external_layout"> -->
+					<div class="page" style="page-break-before:always;">
+						<div>
+							<div style="float:left;margin-top:40px;">
+								<img t-att-src="'data:image/png;base64,%s' %to_text(o.user_company.logo)"
+							 		 style="height=130px;width=160px;"/>
+							</div>
+							<div style="float:left;margin-top:20px;text-align:right;margin_left:6%;width:50%">
+								<div style="font-size:16px;text-align:center;">
+									<h2>
+										<span t-field="o.user_company.name"/>
+									</h2>
+								</div>
+								<p>
+									<h3 style="text-align:center;">
+										<span t-field="o.user_company.street"/>
+										<span t-field="o.user_company.street2"/>
+										<span t-field="o.user_company.city"/>
+										<span t-field="o.user_company.zip"/>
+										<span t-field="o.user_company.state_id.name"/>
+										<span t-field="o.user_company.country_id.name"/>
+										<span t-field="o.user_company.name"/>
+									</h3>
+								</p>
+							</div>
+						</div>
+						<div style="position:absolute;text-align:center;z-index:-1;border:0;opacity:0.5;padding-top:330px;padding-left:145px;">
+						<img t-att-src="'data:image/png;base64,%s' %to_text(o.user_company.logo)"
+							 style="height=600px;width=600px;opacity:0.15;"/>
+						</div>
+						<t t-set="count" t-value="1"/>
+						<t t-set="count2" t-value="1"/>
+						<br/>
+						<br/>
+						<ul style="clear:both">
+							<li>Name:<span t-field="o.name"/></li>
+							<li>Age:<span t-field="o.age"/></li>
+							<li>Mobile:<span t-field="o.mobile"/></li>
+							<li>Gender:<span t-field="o.gender"/></li>
+							<li>DOB:<span t-field="o.dob"/></li>
+							<li>Email:<span t-field="o.email"/></li>
+							<li>Country:<span t-field="o.country_id"/></li>
+							<li>Other country mention as below:</li>
+						</ul>
+						<br/>
+						<table width="100%" style="border:1px solid black;border-collapse:collapse;">
+							<tr>
+								<th width="10%" style="border:1px solid black;">S. No:</th>
+								<th width="15%" style="border:1px solid black;">Country ID:</th>
+								<th width="40%" style="border:1px solid black;">Country Name:</th>
+								<th width="35%" style="border:1px solid black;">Country Code:</th>
+							</tr>
+							<t t-foreach="o.country_ids" t-as="c">
+							<tr>
+								<td  style="border:1px solid black;"><span t-esc="count2"/></td>
+								<td  style="border:1px solid black;"><span t-field="c.id"/></td>
+								<td  style="border:1px solid black;"><span t-field="c.name"/></td>
+								<td  style="border:1px solid black;"><span t-field="c.code"/></td>
+							</tr>
+							<t t-set="count2" t-value="count2 + 1"/>
+							</t>
+						</table>
+						<br/>
+						<table width="100%" style="border:1px solid black;border-collapse:collapse;">
+							<tr>
+								<th width="10%" style="border:1px solid black;">S. No:</th>
+								<th width="40%" style="border:1px solid black;">Name:</th>
+								<th width="50%" style="border:1px solid black;">Product:</th>
+							</tr>
+							<t t-foreach="o.staff_line_ids" t-as="sl">
+							<tr>
+								<td  style="border:1px solid black;"><span t-esc="count"/></td>
+								<td  style="border:1px solid black;"><span t-field="sl.name"/></td>
+								<td  style="border:1px solid black;"><span t-field="sl.product_id.name"/></td>
+							</tr>
+							<t t-set="count" t-value="count + 1"/>
+							</t>
+						</table>
+	  				</div>
+					<!-- </t> -->
+				</t>
+			</t>
+		</template>
+	</data>
+	<record id="rest_staff_paper_id" model="report.paperformat">
+        <field name="name">Restaurant staff paperformate</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+	<report id="rest_staff_report_id"
+			model="rest.staff"
+			report_type="qweb-pdf" 
+			string="Print Staff Data"
+			name="restaurant_project.rest_staff_qweb_templete"
+			file="restaurant_project.rest_staff_qweb_templete"
+			paperformat="restaurant_project.rest_staff_paper_id"
+			print_report_name="'Print Report'"/>
+</odoo>

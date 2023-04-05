@@ -9,7 +9,7 @@
     'category': 'Sale and Invoicing',
     'website': 'https://www.odoo.com/',
     'images' : [],
-    'depends' : ['base','mail'],
+    'depends' : ['base','mail','sale'],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',

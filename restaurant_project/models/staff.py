@@ -2,6 +2,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 
 
 class RestStaff(models.Model):
@@ -11,58 +12,10 @@ class RestStaff(models.Model):
     _rec_name = 'age'
     _order = 'age desc'
 
-    def call_menu_fun(self):
-        print("call_menu_func........................................")
-        
-    def do_check_orm(self):
-        var_update_id = self.env['rest.staff'].browse(19)
-        var_update_id.unlink()
-
-    def unlink(self):
-        for record in self:
-            if record.status == 'active':
-                raise UserError(_("we can't delete this record, record is in active mode."))
-        return super(RestStaff, self).unlink()
-
-    @api.model
-    def create(self, vals):
-        if vals.get("seq_no",_('New'))==_('New'):
-            vals['seq_no'] = self.env['ir.sequence'].next_by_code('rest.seq.staff') or _('New')
-        if not vals.get('staff_line_ids'):
-            raise ValidationError(_("please fill the one2many fields."))
-        rec = super(RestStaff, self).create(vals)
-        return rec
-
-    # def write(self, vals):
-    #     if not vals.get('staff_line_ids'):
-    #         raise ValidationError(_("please fill the one2many fields."))
-    #     return super(RestStaff, self).write(vals)
-        
-    def delete_one2many(self):
-        for record in self:
-            if record.staff_line_ids:
-                record.staff_line_ids = [(5, 0, 0)]
-                return{
-                    'effect': {
-                        'fadeout': 'slow',
-                        'type': 'rainbow_man',
-                        'message': 'Record has been deleted successfully'
-                    }
-                }
-
-    def do_resign(self):
-        for rec in self:
-            rec.status = 'resign'
-
-    @api.constrains('age')
-    def val_age(self):
-        for rec in self:
-            if rec.age <=18:
-                raise ValidationError(_("the age must greter than 18"))
 
     name = fields.Char(string="Name", track_visibility="Always")
-    age = fields.Integer(string="Age", track_visibility="Always")
-    dob = fields.Date(string="DOB")
+    age = fields.Integer(string="Age", track_visibility="Always", compute="_compute_age")
+    dob = fields.Date(string="Birthdate")
     mobile = fields.Char(string="Mobile", track_visibility="Always")
     email = fields.Char(string="Email")
     country_id = fields.Many2one('res.country', string="Country")
@@ -85,6 +38,67 @@ class RestStaff(models.Model):
     login_user = fields.Many2one('res.users', string="User", default=lambda self:self.env.user.id)
     user_company = fields.Many2one('res.company', string="Company", default=lambda self:self.env.user.company_id.id)
     button_integer = fields.Integer(string="Button Integer")
+    mobile = fields.Char(string="Mobile")
+    
+    def share_on_whatsapp(self):
+        if not self.mobile:
+            raise ValidationError("missing mobile number in staff record.")
+        message = 'Hi %s' % self.name
+        whatsapp_api_url = 'https://api.whatsapp.com/send?phone=%s&text=%s' % (self.mobile, message)
+        return{
+        'type': 'ir.actions.act_url',
+        'target': 'new',
+        'url': whatsapp_api_url
+        }
+
+    def call_menu_fun(self):
+        return
+        
+    def do_check_orm(self):
+        return
+
+    def unlink(self):
+        for record in self:
+            if record.status == 'active':
+                raise UserError(_("we can't delete this record, record is in active mode."))
+        return super(RestStaff, self).unlink()
+
+    @api.model
+    def create(self, vals):
+        if vals.get("seq_no",_('New'))==_('New'):
+            vals['seq_no'] = self.env['ir.sequence'].next_by_code('rest.seq.staff') or _('New')
+        rec = super(RestStaff, self).create(vals)
+        return rec
+
+    def delete_one2many(self):
+        for record in self:
+            if record.staff_line_ids:
+                record.staff_line_ids = [(5, 0, 0)]
+                return{
+                    'effect': {
+                        'fadeout': 'slow',
+                        'type': 'rainbow_man',
+                        'message': 'Record has been deleted successfully'
+                    }
+                }
+
+    def do_resign(self):
+        for rec in self:
+            rec.status = 'resign'
+
+    @api.constrains('age')
+    def val_age(self):
+        for rec in self:
+            if rec.age <=18:
+                raise ValidationError(_("the age must greter than 18"))
+
+    @api.depends('default_date','dob')
+    def _compute_age(self):
+        for rec in self:
+            if rec.dob:
+                rec.age = relativedelta(rec.default_date, rec.dob).years
+            else:
+                rec.age = 0
 
     @api.depends('hand_salary','epf_esi')
     def cal_ctc_salary(self):

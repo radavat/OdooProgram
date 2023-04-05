@@ -38,6 +38,7 @@
                         class="oe_highlight"/>
                 <field name="status" widget="statusbar"/>
                 <button name="do_resign" string="Resigned" type="object" class="oe_highlight" attrs="{'invisible':[('status','!=','active')]}"/>
+                <button name="share_on_whatsapp" type="object" string="Share on whatsapp" class="oe_highlight" icon="fa-whatsapp"/>
             </header>
             <sheet>
                 <div class="oe_button_box" name="button_box">
@@ -67,6 +68,7 @@
                         <field name="country_code"/>
                         <field name="default_date" options='{"datepicker":{"daysOfWeekDisabled":[0,6]}}'/>
                         <field name="default_datetime"/>
+                        <field name="mobile"/>
                         <field name="login_user"/>
                         <field name="user_company"/>
                     </group>

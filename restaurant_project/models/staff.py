@@ -119,3 +119,4 @@ class RestStaff(models.Model):
         name = fields.Char(string="Name", required=True)
         product_id = fields.Many2one("product.product", string="Product")
         sequence = fields.Integer(string="Seq.")
+        qty = fields.Integer(string="Qty")

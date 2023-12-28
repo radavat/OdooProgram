@@ -86,6 +86,7 @@
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
                                     <field name="product_id"/>
+                                    <field name="qty"/>
                                 </tree>
                                 <form name="Staff Line">
                                     <group>
